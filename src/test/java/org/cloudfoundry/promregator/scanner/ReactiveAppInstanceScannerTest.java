@@ -56,7 +56,7 @@ public class ReactiveAppInstanceScannerTest {
 		t.setOriginalTarget(emptyTarget);
 		targets.add(t);
 		
-		List<Instance> result = this.appInstanceScanner.determineInstancesFromTargets(targets, null, null);
+		List<Instance> result = this.appInstanceScanner.determineInstancesFromTargets(targets, null, null).block();
 
 		assertThat(result).filteredOn( instance -> instance.getInstanceId().equals(UNITTEST_APP1_UUID+":0") )
 				.extracting("accessUrl").containsOnly("http://hostapp1.shared.domain.example.org/testpath1");
@@ -99,7 +99,7 @@ public class ReactiveAppInstanceScannerTest {
 				return false;
 
 			return true;
-		});
+		}).block();
 		
 		assertThat(result).as("should have been filtered").extracting("instanceId").doesNotContain(UNITTEST_APP1_UUID+":0");
 		assertThat(result).as("should have been filtered").extracting("instanceId").doesNotContain(UNITTEST_APP1_UUID+":1");
@@ -133,7 +133,7 @@ public class ReactiveAppInstanceScannerTest {
 		t.setOriginalTarget(emptyTarget);
 		targets.add(t);
 		
-		List<Instance> result = this.appInstanceScanner.determineInstancesFromTargets(targets, null, null);
+		List<Instance> result = this.appInstanceScanner.determineInstancesFromTargets(targets, null, null).block();
 
 		assertThat(result).filteredOn( instance -> instance.getInstanceId().equals(UNITTEST_APP1_UUID+":0") )
 				.extracting("accessUrl").containsOnly("http://hostapp1.shared.domain.example.org/testpath1");
@@ -179,7 +179,7 @@ public class ReactiveAppInstanceScannerTest {
 		t.setOriginalTarget(emptyTarget);
 		targets.add(t);
 		
-		List<Instance> result = this.appInstanceScanner.determineInstancesFromTargets(targets, null, null);
+		List<Instance> result = this.appInstanceScanner.determineInstancesFromTargets(targets, null, null).block();
 		
 		assertThat(result).filteredOn( instance -> instance.getInstanceId().equals(UNITTEST_APP1_UUID+":0") )
 				.extracting("accessUrl").containsOnly("http://hostapp1.shared.domain.example.org/testpath1");
@@ -225,7 +225,7 @@ public class ReactiveAppInstanceScannerTest {
 		t.setOriginalTarget(emptyTarget);
 		targets.add(t);
 		
-		List<Instance> result = this.appInstanceScanner.determineInstancesFromTargets(targets, null, null);
+		List<Instance> result = this.appInstanceScanner.determineInstancesFromTargets(targets, null, null).block();
 		
 		assertThat(result).filteredOn( instance -> instance.getInstanceId().equals(UNITTEST_APP1_UUID+":0") )
 				.extracting("accessUrl").containsOnly("http://hostapp1.shared.domain.example.org/testpath1");
@@ -272,7 +272,7 @@ public class ReactiveAppInstanceScannerTest {
 		t.setOriginalTarget(emptyTarget);
 		targets.add(t);
 		
-		List<Instance> result = this.appInstanceScanner.determineInstancesFromTargets(targets, null, null);
+		List<Instance> result = this.appInstanceScanner.determineInstancesFromTargets(targets, null, null).block();
 
 		assertThat(result).filteredOn( instance -> instance.getInstanceId().equals(UNITTEST_APP1_UUID+":0") )
 				.extracting("accessUrl").containsOnly("http://hostapp1.shared.domain.example.org/testpath1");
@@ -319,7 +319,7 @@ public class ReactiveAppInstanceScannerTest {
 		t.setOriginalTarget(emptyTarget);
 		targets.add(t);
 		
-		List<Instance> result = this.appInstanceScanner.determineInstancesFromTargets(targets, null, null);
+		List<Instance> result = this.appInstanceScanner.determineInstancesFromTargets(targets, null, null).block();
 
 		assertThat(result).filteredOn( instance -> instance.getInstanceId().equals(UNITTEST_APP1_UUID+":0") )
 				.extracting("accessUrl").containsOnly("http://hostapp1.shared.domain.example.org/testpath1");
@@ -365,7 +365,7 @@ public class ReactiveAppInstanceScannerTest {
 		t.setOriginalTarget(emptyTarget);
 		targets.add(t);
 		
-		List<Instance> result = this.appInstanceScanner.determineInstancesFromTargets(targets, null, null);
+		List<Instance> result = this.appInstanceScanner.determineInstancesFromTargets(targets, null, null).block();
 
 		assertThat(result).as("targets with exceptions are ignored").extracting("target.applicationName").doesNotContain("shouldneverbeused");
 
@@ -413,7 +413,7 @@ public class ReactiveAppInstanceScannerTest {
 		t.setOriginalTarget(emptyTarget);
 		targets.add(t);
 		
-		List<Instance> result = this.appInstanceScanner.determineInstancesFromTargets(targets, null, null);
+		List<Instance> result = this.appInstanceScanner.determineInstancesFromTargets(targets, null, null).block();
 
 		assertThat(result).filteredOn( instance -> instance.getInstanceId().equals(UNITTEST_APP1_UUID+":0") )
 				.extracting("accessUrl").containsOnly("http://hostapp1.shared.domain.example.org/testpath1");
@@ -459,7 +459,7 @@ public class ReactiveAppInstanceScannerTest {
 		t.setOriginalTarget(emptyTarget);
 		targets.add(t);
 		
-		List<Instance> result = this.appInstanceScanner.determineInstancesFromTargets(targets, null, null);
+		List<Instance> result = this.appInstanceScanner.determineInstancesFromTargets(targets, null, null).block();
 
 		assertThat(result).filteredOn( instance -> instance.getInstanceId().equals(UNITTEST_APP1_UUID+":0") )
 				.extracting("accessUrl").containsOnly("http://hostapp1.shared.domain.example.org/testpath1");
@@ -505,7 +505,7 @@ public class ReactiveAppInstanceScannerTest {
 		t.setOriginalTarget(emptyTarget);
 		targets.add(t);
 		
-		List<Instance> result = this.appInstanceScanner.determineInstancesFromTargets(targets, null, null);
+		List<Instance> result = this.appInstanceScanner.determineInstancesFromTargets(targets, null, null).block();
 
 		assertThat(result).filteredOn( instance -> instance.getInstanceId().equals(UNITTEST_APP1_UUID+":0") )
 				.extracting("accessUrl").containsOnly("http://hostapp1.shared.domain.example.org/testpath1");
@@ -547,7 +547,7 @@ public class ReactiveAppInstanceScannerTest {
 		t.setOriginalTarget(origTarget);
 		targets.add(t);
 		
-		List<Instance> result = this.appInstanceScanner.determineInstancesFromTargets(targets, null, null);
+		List<Instance> result = this.appInstanceScanner.determineInstancesFromTargets(targets, null, null).block();
 
 		assertThat(result).filteredOn( instance -> instance.getInstanceId().equals(UNITTEST_APP1_UUID+":0") )
 				.extracting("accessUrl").containsOnly("http://hostapp1.shared.domain.example.org/testpath1");
@@ -589,7 +589,7 @@ public class ReactiveAppInstanceScannerTest {
 		t.setOriginalTarget(origTarget);
 		targets.add(t);
 		
-		List<Instance> result = this.appInstanceScanner.determineInstancesFromTargets(targets, null, null);
+		List<Instance> result = this.appInstanceScanner.determineInstancesFromTargets(targets, null, null).block();
 
 		assertThat(result).filteredOn( instance -> instance.getInstanceId().equals(UNITTEST_APP1_UUID+":0") )
 				.extracting("accessUrl").containsOnly("http://hostapp1.shared.domain.example.org/testpath1");

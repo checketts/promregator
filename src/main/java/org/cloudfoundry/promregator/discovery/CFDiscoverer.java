@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 import javax.validation.constraints.Null;
 
 import org.cloudfoundry.promregator.scanner.Instance;
+import reactor.core.publisher.Mono;
 
 public interface CFDiscoverer {
 	
@@ -16,5 +17,5 @@ public interface CFDiscoverer {
 	 * @param instanceFilter the (pre-)filter based on the Instance instance, allowing to filter the lost if instances to discover
 	 * @return the list of Instances which were discovered (and registered).
 	 */
-	List<Instance> discover(@Null Predicate<? super String> applicationIdFilter, @Null Predicate<? super Instance> instanceFilter);
+	Mono<List<Instance>> discover(@Null Predicate<? super String> applicationIdFilter, @Null Predicate<? super Instance> instanceFilter);
 }

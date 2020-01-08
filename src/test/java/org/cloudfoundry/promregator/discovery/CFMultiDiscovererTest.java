@@ -55,7 +55,7 @@ public class CFMultiDiscovererTest {
 	
 	@Test
 	public void testDiscoverWithCleanup() throws InterruptedException {
-		List<ResolvedTarget> resolvedTargets = new ArrayList<>();
+		List<Instance> result = this.cfDiscoverer.discover(null, null).block();
 		ResolvedTarget aTarget = new ResolvedTarget();
 		aTarget.setOrgName("unittestorg");
 		aTarget.setSpaceName("unittestspace");
@@ -67,7 +67,7 @@ public class CFMultiDiscovererTest {
 		resolvedTargets.add(aTarget);
 		when(targetResolver.resolveTargets(any())).thenReturn(resolvedTargets);
 
-		List<Instance> result = this.cfDiscoverer.discover(null, null);
+		List<Instance> result = this.cfDiscoverer.discover(null, null).block();
 		
 		Assert.assertEquals(2, result.size());
 		

@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
+import reactor.core.publisher.Mono;
 
 public class CFMultiDiscoverer implements CFDiscoverer {
 	private static final Logger log = Logger.getLogger(CFMultiDiscoverer.class);
@@ -57,28 +58,31 @@ public class CFMultiDiscoverer implements CFDiscoverer {
 	 * @return the list of Instances which were discovered (and registered).
 	 */
 	@Null
-	public List<Instance> discover(@Null Predicate<? super String> applicationIdFilter, @Null Predicate<? super Instance> instanceFilter) {
+	public Mono<List<Instance>> discover(@Null Predicate<? super String> applicationIdFilter, @Null Predicate<? super Instance> instanceFilter) {
 		log.debug(String.format("We have %d targets configured", this.promregatorConfiguration.getTargets().size()));
 		
 		List<ResolvedTarget> resolvedTargets = this.targetResolver.resolveTargets(this.promregatorConfiguration.getTargets());
 		if (resolvedTargets == null) {
 			log.warn("Target resolved was unable to resolve configured targets");
-			return Collections.emptyList();
+			return Mono.just(Collections.emptyList());
 		}
 		log.debug(String.format("Raw list contains %d resolved targets", resolvedTargets.size()));
 		
-		List<Instance> instanceList = this.appInstanceScanner.determineInstancesFromTargets(resolvedTargets, applicationIdFilter, instanceFilter);
-		if (instanceList == null) {
-			log.warn("Instance Scanner unable to determine instances from provided targets");
-			return Collections.emptyList();
-		}
-		log.debug(String.format("Raw list contains %d instances", instanceList.size()));
+		Mono<List<Instance>> instanceList = this.appInstanceScanner.determineInstancesFromTargets(resolvedTargets, applicationIdFilter, instanceFilter)
+				.doOnNext(instances -> {
+					// ensure that the instances are registered / touched properly
+					for (Instance instance : instances) {
+						this.registerInstance(instance);
+					}
+					log.debug(String.format("Raw list contains %d instances", instances.size()));
+				})
+				.onErrorResume(err -> {
+						log.warn("Instance Scanner unable to determine instances from provided targets", err);
+						return Mono.just(Collections.emptyList());
+					}
 
-		// ensure that the instances are registered / touched properly
-		for (Instance instance : instanceList) {
-			this.registerInstance(instance);
-		}
-		
+				);
+
 		return instanceList;
 	}
 

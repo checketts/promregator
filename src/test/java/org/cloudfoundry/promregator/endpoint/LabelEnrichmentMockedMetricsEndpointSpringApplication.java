@@ -33,6 +33,7 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
 
 import io.prometheus.client.CollectorRegistry;
+import reactor.core.publisher.Mono;
 
 @Configuration
 @EnableAutoConfiguration
@@ -59,7 +60,7 @@ public class LabelEnrichmentMockedMetricsEndpointSpringApplication {
 		return new AppInstanceScanner() {
 
 			@Override
-			public List<Instance> determineInstancesFromTargets(List<ResolvedTarget> targets, @Null Predicate<? super String> applicationIdFilter, @Null Predicate<? super Instance> instanceFilter) {
+			public Mono<List<Instance>> determineInstancesFromTargets(List<ResolvedTarget> targets, @Null Predicate<? super String> applicationIdFilter, @Null Predicate<? super Instance> instanceFilter) {
 				LinkedList<Instance> result = new LinkedList<>();
 
 				ResolvedTarget t = new ResolvedTarget();
@@ -86,7 +87,7 @@ public class LabelEnrichmentMockedMetricsEndpointSpringApplication {
 					}
 				}
 				
-				return result;
+				return Mono.just(result);
 			}
 
 		};

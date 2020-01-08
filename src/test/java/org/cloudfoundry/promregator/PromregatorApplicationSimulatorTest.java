@@ -41,7 +41,7 @@ public class PromregatorApplicationSimulatorTest {
 	@Test
 	public void testDiscoveryWorks() {
 		@Null
-		List<Instance> actual = this.cfDiscoverer.discover(null, null);
+		List<Instance> actual = this.cfDiscoverer.discover(null, null).block();
 		assertThat(200).isEqualTo(actual.size());
 	}
 	
@@ -49,7 +49,7 @@ public class PromregatorApplicationSimulatorTest {
 	public void testSingleInstance() {
 		@Null
 		List<Instance> actual = this.cfDiscoverer.discover(appId -> appId.equals(CFAccessorSimulator.APP_UUID_PREFIX+"100"), 
-				instance -> (CFAccessorSimulator.APP_UUID_PREFIX+"100:1").equals(instance.getInstanceId()));
+				instance -> (CFAccessorSimulator.APP_UUID_PREFIX+"100:1").equals(instance.getInstanceId())).block();
 		assertThat(actual).hasSize(1);
 	}
 
